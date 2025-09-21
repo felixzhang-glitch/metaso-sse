@@ -26,6 +26,18 @@
 
 提示：SSE 客户端访问时请使用带尾斜杠的路径（如 `/sse/`）以避免 307 重定向。函数计算场景建议改用 `streamable-http`。
 
+## 部署到函数计算（阿里云 FC）建议
+- 打包瘦身：
+  - 本仓库提供了瘦身脚本与 Makefile 任务，自动清理 `__pycache__`、`*.dist-info`、`tests/`、`docs/` 等不影响运行的文件。
+  - 本地构建压缩包：
+    - `make fc-zip`
+    - 产物为 `dist.zip`，可直接上传到 FC 作为代码包。
+- 运行入口：
+  - 推荐 `python3 serve.py --transport streamable-http --host 0.0.0.0 --port 9000 --path /mcp`
+  - 或使用环境变量：`METASO_TRANSPORT=streamable-http METASO_PORT=9000 METASO_PATH=/mcp`
+- 实例设置：
+  - 若坚持 SSE，请将实例并发设为 1、保持最小实例 ≥ 1，并开启会话粘滞，否则会出现 `Could not find session`。
+
 ## 端点说明（SSE）
 - SSE 流：`GET /<path>/`（默认 `/sse/`）
 - 消息提交：`POST /messages/?session_id=<服务端下发的session_id>`
