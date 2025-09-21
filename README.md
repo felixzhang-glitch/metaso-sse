@@ -19,7 +19,12 @@
   - `python3 mcp-sse.py --host 0.0.0.0 --port 8080 --path /sse --keepalive 300`
   - 日志会显示服务 URL，例如：`http://127.0.0.1:8080/sse/`
 
-提示：SSE 客户端访问时请使用带尾斜杠的路径（如 `/sse/`）以避免 307 重定向。
+- 无状态/函数计算（推荐使用 Streamable HTTP 以避免 SSE 会话丢失）：
+  - `export METASO_API_KEY="<你的Key>"`
+  - `python3 serve.py --transport streamable-http --host 0.0.0.0 --port 8080 --path /mcp --keepalive 300`
+  - 也可通过环境变量切换：`METASO_TRANSPORT=streamable-http python3 serve.py`
+
+提示：SSE 客户端访问时请使用带尾斜杠的路径（如 `/sse/`）以避免 307 重定向。函数计算场景建议改用 `streamable-http`。
 
 ## 端点说明（SSE）
 - SSE 流：`GET /<path>/`（默认 `/sse/`）
@@ -38,4 +43,3 @@
   - `proxy_read_timeout 1h;`
   - `proxy_http_version 1.1;`
 - 启动时适当调大 `--keepalive`（如 300–600）以降低空闲断连概率。
-
