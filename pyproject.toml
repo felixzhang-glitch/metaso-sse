@@ -1,0 +1,30 @@
+[project]
+name = "metaso-mcp"
+version = "0.1.0"
+description = "Metaso search MCP server built with fastmcp"
+requires-python = ">=3.13"
+authors = [
+  { name = "Metaso" }
+]
+dependencies = [
+  "fastmcp>=2.11.3",
+  "httpx>=0.28.1",
+  "pydantic-settings>=2.6.1"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.4",
+  "pytest-asyncio>=0.23.8",
+  "ruff>=0.9.1"
+]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "B"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
